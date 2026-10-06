@@ -1,0 +1,23 @@
+CÓDIGOS DE ERROR - SISTEMA MÁQUINA DE AGUA V2
+
+=======================================================
+RANGO 100 - 199: PROCESOS DE INICIO (BOOT)
+=======================================================
+101: Fallo de inicialización I2C / No se detecta el módulo expansor MCP23017.
+102: Fallo al montar el sistema de archivos (LittleFS).
+103: No se encuentra el archivo de configuración (config.json) en la memoria.
+104: El archivo config.json tiene un formato JSON inválido o está corrupto.
+
+=======================================================
+RANGO 200 - 299: TRANSBANK (IM30)
+=======================================================
+201: Fallo de comunicación serial con el POS IM30. El equipo no responde al comando de Polling inicial.
+202: Venta rechazada o cancelada por el usuario en el terminal Transbank.
+203: (Reservado) Timeout de respuesta durante un flujo de Transbank.
+
+=======================================================
+RANGO 300 - 399: ESP32 Y PROCESOS INTERNOS
+=======================================================
+301: (Reservado) Error de conexión WiFi (Cliente).
+302: (Reservado) Error levantando el Punto de Acceso (AP).
+303: (Reservado) Fallo de componentes internos (Sensores de flujo, relés).

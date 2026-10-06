@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datix Panel - AguaV2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <span class="icon">💧</span> AguaV2 Panel
+        </div>
+        <ul class="nav">
+            <li class="active" onclick="switchTab('dashboard', this)"><span>🏠</span> Dashboard</li>
+            <li onclick="switchTab('test', this)"><span>⚙️</span> Hardware Test</li>
+            <li onclick="switchTab('config', this)"><span>🛠️</span> Configuración</li>
+            <li onclick="switchTab('logs', this)"><span>📄</span> Registros (Logs)</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <h2>Dashboard</h2>
+            <div class="user-info">Administrador <span style="cursor:pointer; margin-left:10px; color:#EF4444;"
+                    onclick="doLogout()">Salir</span></div>
+        </div>
+
+        <div id="dashboard" class="tab-content active">
+            <div class="cards">
+                <div class="card blue">
+                    <h3>Estado General</h3>
+                    <div class="val" id="st-cansell">Cargando...</div>
+                </div>
+                <div class="card green">
+                    <h3>Nivel Agua</h3>
+                    <div class="val" id="st-tank">Cargando...</div>
+                </div>
+                <div class="card orange">
+                    <h3>Agua Red</h3>
+                    <div class="val" id="st-net">Cargando...</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>Resumen del Sistema</h3>
+                <p>Bienvenido al panel de control de la Máquina de Agua V2. Desde el menú lateral puedes acceder a las
+                    pruebas de hardware, configuración general y descargar los registros del sistema.</p>
+                <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
+                    <button onclick="downloadSales()" style="background:#22C55E;">📥 Descargar Ventas (CSV)</button>
+                    <button onclick="clearSales()" style="background:#EF4444;">🗑️ Borrar Ventas</button>
+                    <button onclick="rebootESP()" style="background:#B45309;">🔄 Reiniciar Máquina</button>
+                </div>
+            </div>
+
+            <div class="panel" style="background:#EFF6FF; border-left: 4px solid #3B82F6;">
+                <h3 style="color:#1E3A8A;">Ciclo Motor de Aire (Oxigenación)</h3>
+                <div style="font-size: 16px; margin-top: 10px;">
+                    <p><strong>Estado Actual:</strong> <span id="oxi-status"
+                            style="font-weight:bold;">Calculando...</span></p>
+                    <p><strong>Tiempo para próximo cambio:</strong> <span id="oxi-time">00:00</span></p>
+                </div>
+                <div
+                    style="width: 100%; background: #ccc; height: 10px; border-radius: 5px; margin-top: 10px; overflow: hidden;">
+                    <div id="oxi-progress"
+                        style="width: 0%; background: #3B82F6; height: 100%; transition: width 1s linear;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="test" class="tab-content">
+            <div class="panel" style="background:#FFFBEB; border-left: 4px solid #F59E0B;">
+                <h3 style="color:#B45309;">Modo Prueba Exclusivo</h3>
+                <p>Al activar esto, la máquina pausará sus funciones de venta y mostrará en pantalla que está en
+                    mantenimiento. Es obligatorio activar esto para probar hardware.</p>
+                <div style="margin-top:15px;">
+                    <label class="switch">
+                        <input type="checkbox" id="test-mode-toggle" onchange="toggleTestMode(this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                    <span id="test-mode-lbl" style="font-weight:bold; margin-left:10px;">Modo Prueba: INACTIVO</span>
+                </div>
+            </div>
+            <div class="panel">
+                <h3>Estado de Sensores</h3>
+                <div class="sensor-grid">
+                    <div class="sensor" id="sens-nivel_inferior">Nivel Inferior: <span>?</span></div>
+                    <div class="sensor" id="sens-nivel_superior">Nivel Superior: <span>?</span></div>
+                    <div class="sensor" id="sens-agua_entrada">Agua Entrada: <span>?</span></div>
+                    <div class="sensor" id="sens-agua_osmosis">Agua Osmosis: <span>?</span></div>
+                    <div class="sensor" id="sens-agua_dispensador">Agua Dispensador: <span>?</span></div>
+                </div>
+                <p><small>Verde = Activo/Detectando | Rojo = Inactivo/Abierto</small></p>
+                <button onclick="fetchStatus()">Actualizar Sensores</button>
+            </div>
+
+            <div class="panel">
+                <h3>Prueba de Relés (Test Mode)</h3>
+                <div class="relay-grid">
+                    <div class="relay">
+                        <span>Luz Bidón</span>
+                        <button onclick="toggleRelay('luz_bidon', 1)">ON</button>
+                        <button onclick="toggleRelay('luz_bidon', 0)">OFF</button>
+                    </div>
+                    <div class="relay">
+                        <span>Motor Aire</span>
+                        <button onclick="toggleRelay('motor_aire', 1)">ON</button>
+                        <button onclick="toggleRelay('motor_aire', 0)">OFF</button>
+                    </div>
+                    <div class="relay">
+                        <span>Válvula Llenado</span>
+                        <button onclick="toggleRelay('valvula_llenado', 1)">ON</button>
+                        <button onclick="toggleRelay('valvula_llenado', 0)">OFF</button>
+                    </div>
+                    <div class="relay">
+                        <span>Bomba Dispensador</span>
+                        <button onclick="toggleRelay('bomba_dispensador', 1)">ON</button>
+                        <button onclick="toggleRelay('bomba_dispensador', 0)">OFF</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <h3>Prueba de Botones (Test Mode)</h3>
+                <div class="relay-grid" id="btn-test-container">
+                    <!-- Se llenara por JS -->
+                    <p><small>Enciende o apaga el LED de cada botón.</small></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="config" class="tab-content">
+            <div class="panel">
+                <h3>Editor de Configuración</h3>
+                <div class="log-buttons">
+                    <button onclick="loadForm('config.json')">Sistema (WiFi)</button>
+                    <button onclick="loadForm('hardware.json')">Hardware & Agua</button>
+                    <button onclick="loadForm('butons.json')">Ventas y Botones</button>
+                    <button onclick="loadForm('pago.json')">Medios de Pago</button>
+                </div>
+                <div id="config-form-container" style="margin-top:20px; padding: 15px; background: #F8FAFC; border-radius: 8px;">
+                    <p style="color:#64748B;">Selecciona una categoría arriba para configurar.</p>
+                </div>
+                <div id="calibration-container"
+                    style="display:none; margin-top:20px; padding-top:20px; border-top:1px solid #eee;">
+                    <h4>Prueba de Calibración de Venta</h4>
+                    <p>Dispensa agua durante un tiempo específico para calibrar el volumen (ms).</p>
+                    <input type="number" id="calib-time" value="5000"
+                        style="padding:8px; border-radius:4px; border:1px solid #ccc;">
+                    <button onclick="testDispense()">▶️ Iniciar Dispensado</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="logs" class="tab-content">
+            <div class="panel">
+                <h3>Registros del Sistema (Logs)</h3>
+                <div class="log-buttons">
+                    <button onclick="loadLog('log1.txt')">Log 1 (Actual)</button>
+                    <button onclick="loadLog('log2.txt')">Log 2 (Anterior)</button>
+                    <button onclick="loadLog('log3.txt')">Log 3 (Más antiguo)</button>
+                </div>
+                <textarea id="log-viewer" readonly placeholder="Selecciona un log para visualizar..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+    <script src="/app.js"></script>
+</body>
+
+</html>

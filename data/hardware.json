@@ -1,0 +1,22 @@
+{
+  "sensores": {
+    "nivel_inferior": "B3",
+    "nivel_superior": "B4",
+    "agua_entrada": "B0",
+    "agua_osmosis": "B2",
+    "agua_dispensador": "B1",
+    "flotador_normalmente_cerrado": true
+  },
+  "reles": {
+    "luz_bidon": "B6",
+    "motor_aire": "B7",
+    "valvula_llenado": "A6",
+    "bomba_dispensador": "A7",
+    "activacion_en_low": true
+  },
+  "config": {
+    "requiere_red_agua": false,
+    "intervalo_oxigenacion_min": 60,
+    "duracion_oxigenacion_min": 5
+  }
+}

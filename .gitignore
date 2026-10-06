@@ -1,0 +1,24 @@
+# Arduino
+build/
+*.elf
+*.bin
+*.hex
+*.map
+*.a
+*.o
+
+# Sensitive config
+data/config.json
+secrets.h
+.env
+
+# VSCode/Editor
+.vscode/
+*.code-workspace
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db

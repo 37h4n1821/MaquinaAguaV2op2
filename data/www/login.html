@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Login - AguaV2</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #F5F7FB;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .login-box h3 {
+            margin-bottom: 20px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+        }
+
+        #login-msg {
+            margin-top: 15px;
+            color: #EF4444;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-box panel">
+        <h3> Acceso AguaV2</h3>
+        <input type="text" id="user" placeholder="Usuario">
+        <input type="password" id="pass" placeholder="Contraseña">
+        <button onclick="doLogin()">Ingresar</button>
+        <div id="login-msg"></div>
+    </div>
+    <script>
+        async function doLogin() {
+            let fd = new URLSearchParams();
+            fd.append("user", document.getElementById('user').value);
+            fd.append("pass", document.getElementById('pass').value);
+            try {
+                let r = await fetch('/api/login', { method: 'POST', body: fd });
+                if (r.ok) {
+                    window.location.href = "/";
+                } else {
+                    document.getElementById('login-msg').innerText = "Credenciales invalidas";
+                }
+            } catch (e) {
+                document.getElementById('login-msg').innerText = "Error de conexion";
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+{
+  "botones": [
+    {
+      "id": 1,
+      "pin": "A0",
+      "modo_inicio": "PULLUP",
+      "tipo": "venta",
+      "monto": 500,
+      "tiempo_ms": 10000,
+      "texto": "Venta 1"
+    },
+    {
+      "id": 2,
+      "pin": "A1",
+      "modo_inicio": "PULLUP",
+      "tipo": "venta",
+      "monto": 1000,
+      "tiempo_ms": 20000,
+      "texto": "Venta 2"
+    },
+    {
+      "id": 3,
+      "pin": "A2",
+      "modo_inicio": "PULLUP",
+      "tipo": "venta",
+      "monto": 1500,
+      "tiempo_ms": 30000,
+      "texto": "Venta 3"
+    },
+    {
+      "id": 4,
+      "pin": "A3",
+      "modo_inicio": "PULLUP",
+      "tipo": "venta",
+      "monto": 2000,
+      "tiempo_ms": 40000,
+      "texto": "Venta 4"
+    },
+    {
+      "id": 5,
+      "pin": "A4",
+      "modo_inicio": "PULLUP",
+      "tipo": "accion",
+      "accion": "iniciar"
+    },
+    {
+      "id": 6,
+      "pin": "A5",
+      "modo_inicio": "PULLUP",
+      "tipo": "accion",
+      "accion": "stop"
+    }
+  ]
+}

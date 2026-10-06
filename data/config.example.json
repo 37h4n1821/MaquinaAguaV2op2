@@ -1,0 +1,20 @@
+{
+  "version": "1.2.5",
+  "system_name": "MaquinaAguaV2",
+  "hostname": "maquina-agua-v2",
+  "wifi": {
+    "mode": "WIFI_AP_STA",
+    "sta": {
+      "ssid": "TU_WIFI_SSID",
+      "password": "TU_WIFI_PASSWORD"
+    },
+    "ap": {
+      "ssid": "AguaV2_Config",
+      "password": "PASSWORD_MODO_AP"
+    }
+  },
+  "web": {
+    "user": "admin",
+    "password": "TU_PASSWORD_ADMIN"
+  }
+}
